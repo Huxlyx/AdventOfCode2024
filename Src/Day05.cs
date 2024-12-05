@@ -6,9 +6,8 @@ internal class Day05 : IAoC
     {
         string[] lines = aoc.GetContent();
 
-        List<(int, int)> pageRules = [];
-
         int lineIdx = 0;
+        bool[] rules = new bool[10_000];
         foreach (string line in lines)
         {
             ++lineIdx;
@@ -17,7 +16,7 @@ internal class Day05 : IAoC
                 break;
             }
             int[] pages = line.Split('|').Select(int.Parse).ToArray();
-            pageRules.Add((pages[0], pages[1]));
+            rules[pages[0] * 100 + pages[1]] = true;
         }
 
         int result = 0;
@@ -33,13 +32,9 @@ internal class Day05 : IAoC
             {
                 for (int secondPage = firstPage + 1; secondPage < nums.Length && ! broken; ++secondPage)
                 {
-                    foreach ((int first, int second) in pageRules)
+                    if (rules[nums[secondPage] * 100 + nums[firstPage]])
                     {
-                        if (nums[firstPage] == second && nums[secondPage] == first)
-                        {
-                            broken = true;
-                            break;
-                        }
+                        broken = true;
                     }
                 }
             }
@@ -57,9 +52,8 @@ internal class Day05 : IAoC
     {
         string[] lines = aoc.GetContent();
 
-        List<(int, int)> pageRules = [];
-
         int lineIdx = 0;
+        bool[] rules = new bool[10_000];
         foreach (string line in lines)
         {
             ++lineIdx;
@@ -68,7 +62,7 @@ internal class Day05 : IAoC
                 break;
             }
             int[] pages = line.Split('|').Select(int.Parse).ToArray();
-            pageRules.Add((pages[0], pages[1]));
+            rules[pages[0] * 100 + pages[1]] = true;
         }
 
         int result = 0;
@@ -83,13 +77,10 @@ internal class Day05 : IAoC
             {
                 for (int secondPage = firstPage + 1; secondPage < nums.Length; ++secondPage)
                 {
-                    foreach ((int first, int second) in pageRules)
+                    if (rules[nums[secondPage] * 100 + nums[firstPage]])
                     {
-                        if (nums[firstPage] == second && nums[secondPage] == first)
-                        {
-                            (nums[secondPage], nums[firstPage]) = (nums[firstPage], nums[secondPage]);
-                            broken = true;
-                        }
+                        (nums[secondPage], nums[firstPage]) = (nums[firstPage], nums[secondPage]);
+                        broken = true;
                     }
                 }
             }
