@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AdventOfCode2024.Src
+﻿namespace AdventOfCode2024.Src
 {
     internal static class AoCUtil
     {
@@ -29,5 +23,17 @@ namespace AdventOfCode2024.Src
             return result;
         }
 
+        internal static void PrintGrid(char[][] grid)
+        {
+            Console.WriteLine();
+            foreach (char[] line in grid)
+            {
+                foreach (char c in line)
+                {
+                    Console.Write(c);
+                }
+                Console.WriteLine();
+            }
+        }
     }
 }
