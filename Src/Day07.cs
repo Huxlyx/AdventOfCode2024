@@ -160,7 +160,7 @@ internal class Day07 : IAoC
         Console.WriteLine(calibrationResult);
     }
 
-    public bool CanSolveRecursive(long targetResult, long[] operands, int operandIdx, long intermediateResult)
+    public static bool CanSolveRecursive(long targetResult, long[] operands, int operandIdx, long intermediateResult)
     {
         if (intermediateResult > targetResult)
         {
@@ -178,9 +178,24 @@ internal class Day07 : IAoC
 
         result |= CanSolveRecursive(targetResult, operands, operandIdx, intermediateResult + operands[operandIdx]);
         result |= CanSolveRecursive(targetResult, operands, operandIdx, intermediateResult * operands[operandIdx]);
-        result |= CanSolveRecursive(targetResult, operands, operandIdx, long.Parse(intermediateResult + "" + operands[operandIdx]));
+        result |= CanSolveRecursive(targetResult, operands, operandIdx, Concat(intermediateResult, operands[operandIdx]));
 
         return result;
+    }
+
+    public static long Concat(long left, long right)
+    {
+        if (right >= 100)
+        {
+            return left * 1000 + right;
+        }
+
+        if (right >= 10)
+        {
+            return left * 100 + right;
+        }
+
+        return left * 10 + right;
     }
 
 }
