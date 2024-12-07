@@ -138,4 +138,49 @@ internal class Day07 : IAoC
         } while (carryOver);
         return true;
     }
+
+    public void Part2Optimized(IAoC aoc)
+    {
+        string[] lines = aoc.GetContent();
+
+        long calibrationResult = 0;
+
+        foreach (string line in lines)
+        {
+            long result = long.Parse(line[..line.IndexOf(':')]);
+            long[] operands = line[(line.IndexOf(':') + 2)..].Split().Select(long.Parse).ToArray();
+
+
+            if (CanSolveRecursive(result, operands, 0, operands[0]))
+            {
+                calibrationResult += result;
+            }
+        }
+
+        Console.WriteLine(calibrationResult);
+    }
+
+    public bool CanSolveRecursive(long targetResult, long[] operands, int operandIdx, long intermediateResult)
+    {
+        if (intermediateResult > targetResult)
+        {
+            return false;
+        }
+
+        if (operandIdx == operands.Length - 1)
+        {
+            return intermediateResult == targetResult;
+        }
+
+        ++operandIdx;
+
+        bool result = false;
+
+        result |= CanSolveRecursive(targetResult, operands, operandIdx, intermediateResult + operands[operandIdx]);
+        result |= CanSolveRecursive(targetResult, operands, operandIdx, intermediateResult * operands[operandIdx]);
+        result |= CanSolveRecursive(targetResult, operands, operandIdx, long.Parse(intermediateResult + "" + operands[operandIdx]));
+
+        return result;
+    }
+
 }
